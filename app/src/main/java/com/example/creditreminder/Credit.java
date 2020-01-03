@@ -3,18 +3,21 @@ package com.example.creditreminder;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+import java.util.Date;
+
 @Entity(tableName = "credit_table")
-public class Credit {
+public class Credit implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String title;
-    private long last_pay_date;
-    private long payment_settlement_date;
+    private Date last_pay_date;
+    private Date payment_settlement_date;
     private double full_amount_of_payment;
     private double min_amount_of_payment;
 
-    public Credit(String title, long last_pay_date, long payment_settlement_date,
+    public Credit(String title, Date last_pay_date, Date payment_settlement_date,
                   double full_amount_of_payment, double min_amount_of_payment) {
         this.title = title;
         this.last_pay_date = last_pay_date;
@@ -35,11 +38,11 @@ public class Credit {
         return title;
     }
 
-    public long getLast_pay_date() {
+    public Date getLast_pay_date() {
         return last_pay_date;
     }
 
-    public long getPayment_settlement_date() {
+    public Date getPayment_settlement_date() {
         return payment_settlement_date;
     }
 
