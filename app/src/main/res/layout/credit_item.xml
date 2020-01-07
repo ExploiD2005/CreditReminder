@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginTop="8dp">
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:text="Оплатить до:"/>
+            android:text="Оплатить до:" />
 
         <TextView
             android:id="@+id/textview_last_pay_date"
@@ -25,18 +25,19 @@
             android:layout_below="@id/textview_pay_due_date"
             android:layout_alignParentEnd="true"
             android:text="28.01.2020"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <TextView
             android:id="@+id/textview_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/textview_last_pay_date"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="Тинькофф"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:maxLines="1"
-            android:layout_toStartOf="@id/textview_last_pay_date"
-            android:layout_alignParentStart="true"
-            android:ellipsize="end"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textview_amount"
@@ -44,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/textview_title"
             android:text="Сумма: "
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <TextView
             android:id="@+id/textview_full_amount_of_payment"
@@ -53,7 +54,7 @@
             android:layout_below="@id/textview_title"
             android:layout_toEndOf="@id/textview_amount"
             android:text="2000р."
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <TextView
             android:id="@+id/textview_min_ammount"
@@ -61,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/textview_last_pay_date"
             android:layout_alignParentEnd="true"
-            android:text="Минимальный платеж:"/>
+            android:text="Минимальный платеж:" />
 
         <TextView
             android:id="@+id/textview_min_amount_of_payment"
@@ -69,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/textview_min_ammount"
             android:layout_alignParentEnd="true"
-            android:text="1000р."/>
+            android:text="1000р." />
 
     </RelativeLayout>
 

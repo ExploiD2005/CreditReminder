@@ -1,6 +1,7 @@
 package com.example.creditreminder;
 
 import android.content.Context;
+import android.icu.text.SimpleDateFormat;
 import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
+
+import java.util.Calendar;
+import java.util.Date;
 
 @Database(entities = {Credit.class}, version = 1)
 @TypeConverters({ConverterDataLong.class})
@@ -46,7 +50,14 @@ public abstract class CreditDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            //creditDao.insert(new Credit("Тинькофф",  Date(), (2019.09.25), 10-01-2019, 2000, 1000));
+            Date lpd = new Date();
+            //Date date = new SimpleDateFormat("dd.MM.yyyy").parse("28.12.2019");
+            Calendar date1 = Calendar.getInstance();
+            date1.set(2018,11,10);
+            Date date = date1.getTime();
+            creditDao.insert(new Credit("Тинькофф",  lpd, lpd,  2000, 500));
+            creditDao.insert(new Credit("Сбербанк",  date, date,  5000, 0));
+            creditDao.insert(new Credit("Альфа-банк",  lpd, lpd,  6000, 0));
             return null;
         }
     }

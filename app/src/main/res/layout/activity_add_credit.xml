@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".AddCreditActivity">
+
+    <EditText
+        android:id="@+id/edit_text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Название"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/edit_text_last_pay_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Последний день платежа"
+        android:inputType="date"/>
+
+    <EditText
+        android:id="@+id/edit_text_Payment_settlement_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Дата расчета процентов"
+        android:inputType="date"/>
+
+    <EditText
+        android:id="@+id/edit_text_full_ammount_of_payment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Полная сумма платежа"
+        android:inputType="numberDecimal"/>
+
+    <EditText
+        android:id="@+id/edit_text_min_ammount_of_payment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Сумма минимального платежа"
+        android:inputType="numberDecimal"/>
+
+</LinearLayout>
