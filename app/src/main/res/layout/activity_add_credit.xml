@@ -19,6 +19,7 @@
         android:id="@+id/edit_text_last_pay_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
         android:hint="Последний день платежа"
         android:inputType="date"/>
 
@@ -26,6 +27,7 @@
         android:id="@+id/edit_text_Payment_settlement_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
         android:hint="Дата расчета процентов"
         android:inputType="date"/>
 

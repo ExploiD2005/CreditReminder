@@ -1,6 +1,7 @@
 package com.example.creditreminder;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -26,8 +27,33 @@ public class Credit implements Serializable {
         this.min_amount_of_payment = min_amount_of_payment;
     }
 
+    @Ignore
+    public Credit() {
+
+    }
+
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setLast_pay_date(Date last_pay_date) {
+        this.last_pay_date = last_pay_date;
+    }
+
+    public void setPayment_settlement_date(Date payment_settlement_date) {
+        this.payment_settlement_date = payment_settlement_date;
+    }
+
+    public void setFull_amount_of_payment(double full_amount_of_payment) {
+        this.full_amount_of_payment = full_amount_of_payment;
+    }
+
+    public void setMin_amount_of_payment(double min_amount_of_payment) {
+        this.min_amount_of_payment = min_amount_of_payment;
     }
 
     public int getId() {
