@@ -27,12 +27,13 @@ public abstract class CreditDatabase extends RoomDatabase {
             instance = Room.databaseBuilder(context.getApplicationContext(),
                     CreditDatabase.class, "credit_database")
                     .fallbackToDestructiveMigration()
-                    .addCallback(roomCallback)
+                    .addCallback(roomCallback) //Заполнение таблицы записями для примера
                     .build();
         }
         return instance;
     }
 
+    //
     private static RoomDatabase.Callback roomCallback = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
@@ -55,9 +56,9 @@ public abstract class CreditDatabase extends RoomDatabase {
             Calendar date1 = Calendar.getInstance();
             date1.set(2018,11,10);
             Date date = date1.getTime();
-            creditDao.insert(new Credit("Тинькофф",  lpd, lpd,  2000, 500));
-            creditDao.insert(new Credit("Сбербанк",  date, date,  5000, 0));
-            creditDao.insert(new Credit("Альфа-банк",  lpd, lpd,  6000, 0));
+            creditDao.insert(new Credit("Тинькофф",  lpd, 2000, 500));
+            creditDao.insert(new Credit("Сбербанк",  date, 5000, 0));
+            creditDao.insert(new Credit("Альфа-банк",  lpd, 6000, 0));
             return null;
         }
     }

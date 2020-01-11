@@ -1,5 +1,6 @@
 package com.example.creditreminder;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -9,18 +10,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.Date;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final int ADD_CREDIT_REQUEST = 1;
+    public static final int EDIT_CREDIT_REQUEST = 2;
     private CreditViewModel creditViewModel;
+    private CreditAdapter adapter = new CreditAdapter();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         buttonAddCredit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddCreditActivity.class);
+                Intent intent = new Intent(MainActivity.this, AddEditCreditActivity.class);
                 startActivityForResult(intent, ADD_CREDIT_REQUEST);
             }
         });
@@ -40,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        final CreditAdapter adapter = new CreditAdapter();
         recyclerView.setAdapter(adapter);
 
         creditViewModel = ViewModelProviders.of(this).get(CreditViewModel.class);
@@ -50,6 +56,21 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(List<Credit> credits) {
                 adapter.setCredit(credits);
                 //Toast.makeText(MainActivity.this, "onChanged", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        adapter.setOnItemClickListener(new CreditAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Credit credit) {
+                Intent intent = new Intent(MainActivity.this, AddEditCreditActivity.class);
+                intent.putExtra(Credit.class.getSimpleName(), credit);
+                intent.putExtra("AddEditId", EDIT_CREDIT_REQUEST);
+                startActivityForResult(intent, EDIT_CREDIT_REQUEST);
+            }
+
+            @Override
+            public void onItemLongClick(int position) {
+                creditViewModel.deleteAllCredits();
             }
         });
     }
@@ -62,8 +83,59 @@ public class MainActivity extends AppCompatActivity {
             Credit newCredit = (Credit) data.getSerializableExtra(Credit.class.getSimpleName());
             creditViewModel.insert(newCredit);
             Toast.makeText(MainActivity.this, "Запись добавлена", Toast.LENGTH_SHORT).show();
+        } else if(requestCode == EDIT_CREDIT_REQUEST && resultCode == RESULT_OK) {
+            Credit newCredit = (Credit) data.getSerializableExtra(Credit.class.getSimpleName());
+            creditViewModel.update(newCredit);
+            Toast.makeText(MainActivity.this, "Запись обновлена", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(MainActivity.this, "Запись не добавлена", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.delete_all_credits:
+                creditViewModel.deleteAllCredits();
+                Toast.makeText(MainActivity.this, "Все записи удалены", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case 121:
+                //creditViewModel.delete(item.getGroupId());
+                adapter.removeCredit(item.getGroupId());
+                Toast.makeText(MainActivity.this, "Запись удалена", Toast.LENGTH_SHORT).show();
+                return true;
+            /*case 122:
+                Intent intent = new Intent(MainActivity.this, AddEditCreditActivity.class);
+                intent.putExtra(Credit.class.getSimpleName(), credit);
+                intent.putExtra("AddEditId", EDIT_CREDIT_REQUEST);
+                startActivityForResult(intent, EDIT_CREDIT_REQUEST);
+                return true;*/
+            default:
+                return super.onContextItemSelected(item);
+
+        }
+
+
+    }
+
+    /*private void remove(int position) {
+        Product product = productsAdapter.getProducts().remove(position);
+        viewModel.deleteProduct(product);
+        //database.notesDao().deleteNote(note);
+    }*/
 }

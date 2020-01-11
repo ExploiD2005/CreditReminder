@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".AddCreditActivity">
+    tools:context=".AddEditCreditActivity">
 
     <EditText
         android:id="@+id/edit_text_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Название"
+        android:hint="Наименование платежа"
         android:inputType="text"/>
 
     <EditText
@@ -21,14 +21,6 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:hint="Последний день платежа"
-        android:inputType="date"/>
-
-    <EditText
-        android:id="@+id/edit_text_Payment_settlement_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:hint="Дата расчета процентов"
         android:inputType="date"/>
 
     <EditText
