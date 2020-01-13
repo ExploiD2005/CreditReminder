@@ -8,8 +8,16 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,12 +35,22 @@ public class MainActivity extends AppCompatActivity {
     public static final int EDIT_CREDIT_REQUEST = 2;
     private CreditViewModel creditViewModel;
     private CreditAdapter adapter = new CreditAdapter();
+    boolean bound = false;
+    ServiceConnection serviceConnection;
+    Intent intent;
+    ReminderService reminderService;
+    long interval;
+    final String TAG = "Reminder";
+    NotificationManager nm;
+    private final int NOTIFICATION_ID = 111;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Log.d(TAG, "onCreate: ");
 
         FloatingActionButton buttonAddCredit = findViewById(R.id.button_add_credit);
         buttonAddCredit.setOnClickListener(new View.OnClickListener() {
@@ -42,6 +60,23 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, ADD_CREDIT_REQUEST);
             }
         });
+
+        intent = new Intent(this, ReminderService.class);
+        serviceConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                reminderService = ((ReminderService.ReminderBinder) service).getService();
+                bound = true;
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                bound = false;
+            }
+        };
+
+        startService(intent);
+        //interval = reminderService.upInterval(100);
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -73,6 +108,20 @@ public class MainActivity extends AppCompatActivity {
                 creditViewModel.deleteAllCredits();
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        bindService(intent, serviceConnection, 0);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (!bound) return;
+        unbindService(serviceConnection);
+        bound = false;
     }
 
     @Override
@@ -137,5 +186,11 @@ public class MainActivity extends AppCompatActivity {
         Product product = productsAdapter.getProducts().remove(position);
         viewModel.deleteProduct(product);
         //database.notesDao().deleteNote(note);
+    }*/
+
+    /*@Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopService(intent);
     }*/
 }
