@@ -10,11 +10,14 @@ import java.util.List;
 public class CreditRepository {
     private CreditDao creditDao;
     private LiveData<List<Credit>> allCredits;
+    //private List<Credit> allCreditsForService;
+    private String[] allCreditsString;
 
     public CreditRepository(Application application) {
         CreditDatabase database = CreditDatabase.getInstance(application);
         creditDao = database.creditDao();
         allCredits = creditDao.getAllCredits();
+        //allCreditsForService = creditDao.getAllCreditsForService();
     }
 
     public void insert(Credit credit) {
@@ -36,6 +39,10 @@ public class CreditRepository {
     public LiveData<List<Credit>> getAllCredits() {
         return allCredits;
     }
+
+    //public List<Credit> getAllCreditsForService() {
+    //            return allCreditsForService;
+    //}
 
     private static class InsertCreditAsyncTask extends AsyncTask<Credit, Void, Void> {
         private CreditDao creditDao;

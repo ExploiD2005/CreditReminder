@@ -25,4 +25,7 @@ public interface CreditDao {
 
     @Query("SELECT * FROM credit_table ORDER BY last_pay_date ASC")
     LiveData<List<Credit>> getAllCredits();
+
+    @Query("SELECT * FROM credit_table ORDER BY last_pay_date ASC")
+    List<Credit> getAllCreditsForService();
 }

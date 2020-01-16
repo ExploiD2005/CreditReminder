@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
@@ -42,15 +43,14 @@ public class MainActivity extends AppCompatActivity {
     long interval;
     final String TAG = "Reminder";
     NotificationManager nm;
-    private final int NOTIFICATION_ID = 111;
+    private List<Credit> creditsForService;
+    //private final int NOTIFICATION_ID = 1;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Log.d(TAG, "onCreate: ");
 
         FloatingActionButton buttonAddCredit = findViewById(R.id.button_add_credit);
         buttonAddCredit.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +61,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //interval = reminderService.upInterval(100);
+
         intent = new Intent(this, ReminderService.class);
+        //intent.putExtra(Credit.class.getSimpleName(), (Serializable) creditsForService);
+        startService(intent);
+
         serviceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
@@ -75,9 +80,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        startService(intent);
-        //interval = reminderService.upInterval(100);
-
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
@@ -90,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<Credit> credits) {
                 adapter.setCredit(credits);
+                //creditsForService = credits;
+                reminderService.setCredit(credits);
                 //Toast.makeText(MainActivity.this, "onChanged", Toast.LENGTH_SHORT).show();
             }
         });
