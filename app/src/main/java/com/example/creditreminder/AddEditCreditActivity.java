@@ -141,9 +141,15 @@ public class AddEditCreditActivity extends AppCompatActivity implements DatePick
             case R.id.save_credit:
                 saveCredit();
                 return true;
+            case R.id.delete_credit:
+                deleteCredit();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    private void deleteCredit() {
     }
 }

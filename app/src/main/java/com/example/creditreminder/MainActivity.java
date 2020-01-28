@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //--------------------------------------------------------------------------
         FloatingActionButton buttonAddCredit = findViewById(R.id.button_add_credit);
         buttonAddCredit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,13 +60,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, ADD_CREDIT_REQUEST);
             }
         });
-
-        //interval = reminderService.upInterval(100);
-
+        //--------------------------------------------------------------------------
         intent = new Intent(this, ReminderService.class);
-        //intent.putExtra(Credit.class.getSimpleName(), (Serializable) creditsForService);
-        startService(intent);
-
         serviceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
@@ -92,9 +87,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<Credit> credits) {
                 adapter.setCredit(credits);
-                //creditsForService = credits;
-                reminderService.setCredit(credits);
-                //Toast.makeText(MainActivity.this, "onChanged", Toast.LENGTH_SHORT).show();
+                creditsForService = credits;
+                //----------------------------
+                intent.putExtra(Credit.class.getSimpleName(), (Serializable) creditsForService);
+                //stopService(intent);
+                startService(intent);
+                //reminderService.setCredit(credits);
+                Toast.makeText(MainActivity.this, "Данные получены и отправлены в сервис", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -118,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         bindService(intent, serviceConnection, 0);
+        if (bound) reminderService.setCredit(creditsForService);
     }
 
     @Override
@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         if (!bound) return;
         unbindService(serviceConnection);
+        stopService(intent);
         bound = false;
     }
 

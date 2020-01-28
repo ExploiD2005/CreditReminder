@@ -17,14 +17,16 @@ public class Credit implements Serializable {
     //private Date payment_settlement_date;
     private double full_amount_of_payment;
     private double min_amount_of_payment;
+    private double already_payed;
 
     public Credit(String title, Date last_pay_date, //Date payment_settlement_date,
-                  double full_amount_of_payment, double min_amount_of_payment) {
+                  double full_amount_of_payment, double min_amount_of_payment, double already_payed) {
         this.title = title;
         this.last_pay_date = last_pay_date;
         //this.payment_settlement_date = payment_settlement_date;
         this.full_amount_of_payment = full_amount_of_payment;
         this.min_amount_of_payment = min_amount_of_payment;
+        this.already_payed = already_payed;
     }
 
     @Ignore
@@ -56,6 +58,10 @@ public class Credit implements Serializable {
         this.min_amount_of_payment = min_amount_of_payment;
     }
 
+    public void setAlready_payed(double already_payed) {
+        this.already_payed = already_payed;
+    }
+
     public int getId() {
         return id;
     }
@@ -78,5 +84,9 @@ public class Credit implements Serializable {
 
     public double getMin_amount_of_payment() {
         return min_amount_of_payment;
+    }
+
+    public double getAlready_payed() {
+        return already_payed;
     }
 }

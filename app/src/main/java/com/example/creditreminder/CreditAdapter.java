@@ -35,15 +35,22 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditHold
         Credit currentCredit = credits.get(position);
         holder.textViewTitle.setText(currentCredit.getTitle());
         holder.textViewLastPayDay.setText(DateFormat.getDateInstance(DateFormat.MEDIUM).format(currentCredit.getLast_pay_date()));
-        holder.textViewFullAmountOfPayment.setText(String.valueOf(currentCredit.getFull_amount_of_payment()));
+        String full_ammount_of_payment = String.valueOf(currentCredit.getFull_amount_of_payment());
+        String full_ammount_of_payment_r = full_ammount_of_payment + "р.";
+        holder.textViewFullAmountOfPayment.setText(full_ammount_of_payment_r);
         if (currentCredit.getMin_amount_of_payment() > 0) {
             holder.textViewMinAmountOfPayment.setVisibility(View.VISIBLE);
             holder.textViewMinAmmount.setVisibility(View.VISIBLE);
-            holder.textViewMinAmountOfPayment.setText(String.valueOf(currentCredit.getMin_amount_of_payment()));
+            String min_ammount_of_payment = String.valueOf(currentCredit.getMin_amount_of_payment());
+            String min_ammount_of_payment_r = min_ammount_of_payment + "р.";
+            holder.textViewMinAmountOfPayment.setText(min_ammount_of_payment_r);
         } else {
             holder.textViewMinAmountOfPayment.setVisibility(View.GONE);
             holder.textViewMinAmmount.setVisibility(View.GONE);
         }
+        String already_payed = String.valueOf(currentCredit.getAlready_payed());
+        String already_payed_r = already_payed + "р.";
+        holder.textViewAlreadyPayed.setText(already_payed_r);
     }
 
     @Override
@@ -62,6 +69,7 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditHold
         private TextView textViewFullAmountOfPayment;
         private TextView textViewMinAmountOfPayment;
         private TextView textViewMinAmmount;
+        private TextView textViewAlreadyPayed;
 
         public CreditHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,6 +78,7 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditHold
             textViewFullAmountOfPayment = itemView.findViewById(R.id.textview_full_amount_of_payment);
             textViewMinAmountOfPayment = itemView.findViewById(R.id.textview_min_amount_of_payment);
             textViewMinAmmount = itemView.findViewById(R.id.textview_min_ammount);
+            textViewAlreadyPayed = itemView.findViewById(R.id.textview_already_payed);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

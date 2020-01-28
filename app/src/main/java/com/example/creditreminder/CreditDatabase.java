@@ -54,11 +54,11 @@ public abstract class CreditDatabase extends RoomDatabase {
             Date lpd = new Date();
             //Date date = new SimpleDateFormat("dd.MM.yyyy").parse("28.12.2019");
             Calendar date1 = Calendar.getInstance();
-            date1.set(2018,11,10);
+            date1.set(2019,11,10);
             Date date = date1.getTime();
-            creditDao.insert(new Credit("Тинькофф",  lpd, 2000, 500));
-            creditDao.insert(new Credit("Сбербанк",  date, 5000, 0));
-            creditDao.insert(new Credit("Альфа-банк",  lpd, 6000, 0));
+            creditDao.insert(new Credit("Тинькофф",  lpd, 2000, 500, 0));
+            creditDao.insert(new Credit("Сбербанк",  date, 5000, 0, 0));
+            creditDao.insert(new Credit("Альфа-банк",  lpd, 6000, 0, 0));
             return null;
         }
     }
