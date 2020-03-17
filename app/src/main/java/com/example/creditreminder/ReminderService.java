@@ -33,7 +33,7 @@ public class ReminderService extends Service {
     ReminderBinder binder = new ReminderBinder();
     Timer timer;
     TimerTask timerTask;
-    long interval = 10000;
+    long interval = 100000;
     NotificationManagerCompat notificationManagerCompat;
     NotificationManager notificationManager;
     List<Credit> credits;

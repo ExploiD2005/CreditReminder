@@ -8,16 +8,12 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,10 +23,9 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AddEditCreditFragment.AddEditCreditListener {
 
     public static final int ADD_CREDIT_REQUEST = 1;
     public static final int EDIT_CREDIT_REQUEST = 2;
@@ -44,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
     final String TAG = "Reminder";
     NotificationManager nm;
     private List<Credit> creditsForService;
+    //private  Credit openCredit;
+    AddEditCreditFragment addEditCreditFragment = new AddEditCreditFragment();
+    //private  mainCreditListener;
     //private final int NOTIFICATION_ID = 1;
 
 
@@ -56,8 +54,10 @@ public class MainActivity extends AppCompatActivity {
         buttonAddCredit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AddEditCreditActivity.class);
-                startActivityForResult(intent, ADD_CREDIT_REQUEST);
+                //AddEditCreditActivity addCreditActivity = new AddEditCreditActivity();
+                addEditCreditFragment.show(getSupportFragmentManager(), "AddEditCredit");
+                //Intent intent = new Intent(MainActivity.this, AddEditCreditActivity.class);
+                //startActivityForResult(intent, ADD_CREDIT_REQUEST);
             }
         });
         //--------------------------------------------------------------------------
@@ -100,10 +100,14 @@ public class MainActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new CreditAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Credit credit) {
-                Intent intent = new Intent(MainActivity.this, AddEditCreditActivity.class);
-                intent.putExtra(Credit.class.getSimpleName(), credit);
-                intent.putExtra("AddEditId", EDIT_CREDIT_REQUEST);
-                startActivityForResult(intent, EDIT_CREDIT_REQUEST);
+                //AddEditCreditActivity editCreditActivity = new AddEditCreditActivity();
+                addEditCreditFragment.show(getSupportFragmentManager(), "AddEditCredit");
+                //openCredit = credit;
+                addEditCreditFragment.openCredit(credit);
+                //Intent intent = new Intent(MainActivity.this, AddEditCreditActivity.class);
+                //intent.putExtra(Credit.class.getSimpleName(), credit);
+                //intent.putExtra("AddEditId", EDIT_CREDIT_REQUEST);
+                //startActivityForResult(intent, EDIT_CREDIT_REQUEST);
             }
 
             @Override
@@ -127,6 +131,10 @@ public class MainActivity extends AppCompatActivity {
         unbindService(serviceConnection);
         stopService(intent);
         bound = false;
+    }
+
+    void OpenAddEditCreditDialog() {
+
     }
 
     @Override
@@ -186,6 +194,20 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public void saveCredit(Credit newCredit) {
+        if (newCredit.getId() >0) {
+            creditViewModel.update(newCredit);
+        } else {
+            creditViewModel.insert(newCredit);
+        }
+    }
+
+    //@Override
+    //public void openCredit(Credit newCredit) {
+
+    //}
 
     /*private void remove(int position) {
         Product product = productsAdapter.getProducts().remove(position);
