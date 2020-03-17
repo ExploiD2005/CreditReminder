@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".AddEditCreditFragment">
+
+    <TextView
+        android:id="@+id/tvTitleFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/edit_text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Наименование платежа"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/edit_text_last_pay_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:hint="Последний день платежа" />
+
+    <EditText
+        android:id="@+id/edit_text_full_amount_of_payment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Полная сумма платежа"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/edit_text_min_amount_of_payment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Сумма минимального платежа"
+        android:inputType="numberDecimal" />
+
+</LinearLayout>
