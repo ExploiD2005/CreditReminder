@@ -119,6 +119,7 @@ public class AddEditCreditFragment extends AppCompatDialogFragment  implements D
             editTextFullAmountOfPayment.setText(String.valueOf(openCredit.getFull_amount_of_payment()));
             editTextMinAmountOfPayment.setText(String.valueOf(openCredit.getMin_amount_of_payment()));
             isNewCredit = true;
+            //id = -1;
         }
         return builder.create();
     }
@@ -238,8 +239,9 @@ public class AddEditCreditFragment extends AppCompatDialogFragment  implements D
         }
     }
 
-    public void openCredit(Credit newCredit) {
-        openCredit = newCredit;
+    public void openCredit(Credit editCredit) {
+        openCredit = editCredit;
+        id = editCredit.getId();
         isNewCredit = false;
     }
 

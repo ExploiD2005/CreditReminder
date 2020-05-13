@@ -1,0 +1,64 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "96554a43593f0f7268bd83fd39ac0212",
+    "entities": [
+      {
+        "tableName": "credit_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT, `last_pay_date` INTEGER, `full_amount_of_payment` REAL NOT NULL, `min_amount_of_payment` REAL NOT NULL, `already_payed` REAL NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "last_pay_date",
+            "columnName": "last_pay_date",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "full_amount_of_payment",
+            "columnName": "full_amount_of_payment",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "min_amount_of_payment",
+            "columnName": "min_amount_of_payment",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "already_payed",
+            "columnName": "already_payed",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '96554a43593f0f7268bd83fd39ac0212')"
+    ]
+  }
+}

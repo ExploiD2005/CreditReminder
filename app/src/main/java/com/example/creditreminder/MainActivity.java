@@ -12,8 +12,12 @@ import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
+import android.preference.SwitchPreference;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,6 +28,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.prefs.Preferences;
 
 public class MainActivity extends AppCompatActivity implements AddEditCreditFragment.AddEditCreditListener {
 
@@ -61,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements AddEditCreditFrag
             }
         });
         //--------------------------------------------------------------------------
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         intent = new Intent(this, ReminderService.class);
         serviceConnection = new ServiceConnection() {
             @Override
@@ -88,12 +94,21 @@ public class MainActivity extends AppCompatActivity implements AddEditCreditFrag
             public void onChanged(List<Credit> credits) {
                 adapter.setCredit(credits);
                 creditsForService = credits;
-                //----------------------------
                 intent.putExtra(Credit.class.getSimpleName(), (Serializable) creditsForService);
-                //stopService(intent);
-                startService(intent);
-                //reminderService.setCredit(credits);
-                Toast.makeText(MainActivity.this, "Данные получены и отправлены в сервис", Toast.LENGTH_SHORT).show();
+                //----------------------------
+                if (sharedPreferences.getBoolean("show_notification", false) == true) {
+                    //stopService(intent);
+                    startService(intent);
+                    //reminderService.setCredit(credits);
+                    Toast.makeText(MainActivity.this, "Данные получены и отправлены в сервис", Toast.LENGTH_SHORT).show();
+                }
+                if (sharedPreferences.getBoolean("show_notification", false) == false) {
+                    //stopService(intent);
+                    stopService(intent);
+                    //reminderService.setCredit(credits);
+                    Toast.makeText(MainActivity.this, "Сервис остановлен", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -168,6 +183,11 @@ public class MainActivity extends AppCompatActivity implements AddEditCreditFrag
                 creditViewModel.deleteAllCredits();
                 Toast.makeText(MainActivity.this, "Все записи удалены", Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.preferences:
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                //creditViewModel.deleteAllCredits();
+                //Toast.makeText(MainActivity.this, "Все записи удалены", Toast.LENGTH_SHORT).show();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -197,11 +217,39 @@ public class MainActivity extends AppCompatActivity implements AddEditCreditFrag
 
     @Override
     public void saveCredit(Credit newCredit) {
-        if (newCredit.getId() >0) {
+        if (newCredit.getId() >=1) {
             creditViewModel.update(newCredit);
         } else {
             creditViewModel.insert(newCredit);
         }
+    }
+
+    private Preference.OnPreferenceChangeListener listener = new Preference.OnPreferenceChangeListener() {
+        @Override
+        public boolean onPreferenceChange(Preference preference, Object newValue) {
+            String stringValue = newValue.toString();
+            if (preference instanceof SwitchPreference) {
+                if (stringValue == "false") {
+                    ((SwitchPreference) preference).setSummaryOff("Напоминания отключены");
+                    StopNotification();
+                }
+                if (stringValue == "true") {
+                    ((SwitchPreference) preference).setSummaryOff("Напоминания включены");
+                    StartNotification();
+                }
+            }
+            return false;
+        }
+    };
+
+    void StopNotification() {
+        stopService(intent);
+        Toast.makeText(MainActivity.this, "Сервис остановлен", Toast.LENGTH_SHORT).show();
+    }
+
+    void StartNotification() {
+        stopService(intent);
+        Toast.makeText(MainActivity.this, "Сервис запущен", Toast.LENGTH_SHORT).show();
     }
 
     //@Override

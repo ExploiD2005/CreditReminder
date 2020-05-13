@@ -6,4 +6,9 @@
         android:title="Удалить все записи"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/preferences"
+        android:title="Настройки"
+        app:showAsAction="never" />
+
 </menu>

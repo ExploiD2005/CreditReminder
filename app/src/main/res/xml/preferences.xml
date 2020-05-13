@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:title="Показывать уведомления"
+        android:key="show_notification"
+        android:summaryOff="Уведомления отключены"
+        android:summaryOn="Уведомления включены"/>
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:title="Объединять уведомления"
+        android:key="combine_notification"
+        android:summaryOff="На каждый платеж свое уведомление"
+        android:summaryOn="Одно уведомление на все платежи"/>
+
+    <SwitchPreference
+        android:dependency="combine_notification"
+        android:defaultValue="false"
+        android:title="Кнопка оплатить"
+        android:key="pay_button_in_notification"
+        android:summaryOff="Кнопка ОПЛАТИТЬ не отображается"
+        android:summaryOn="Кнопка ОПЛАТИТЬ отображается в уведомлении"/>
+
+
+</PreferenceScreen>
